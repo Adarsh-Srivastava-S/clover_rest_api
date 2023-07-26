@@ -2,6 +2,7 @@ package com.cloverleaf.clover_api.service.impl;
 
 import com.cloverleaf.clover_api.exceptions.GlobalExceptionHandler;
 import com.cloverleaf.clover_api.exceptions.ResourceNotFoundException;
+import com.cloverleaf.clover_api.exceptions.UsernameAlreadyExistsException;
 import com.cloverleaf.clover_api.model.User;
 import com.cloverleaf.clover_api.payloads.UserDto;
 import com.cloverleaf.clover_api.repo.UserRepository;
@@ -29,12 +30,12 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         User user_=null;
 
-        long id=3;
+
         user_=this.userRepository.findByUserName(user.getUsername());
 
         if(user_!=null) {
             System.out.println("User is already there !!.");
-            throw new UsernameNotFoundException(user.getUsername());
+            throw new UsernameAlreadyExistsException("Username already exists: "+user.getUsername());
         }
         else
         {

@@ -38,5 +38,11 @@ public class UserController {
         return ResponseEntity.ok(user);
 
     }
+    @GetMapping("/userId/{userId}")
+    public ResponseEntity<User> getByUserId(@PathVariable("userId") Integer userId)
+    {
+        User user=this.userService.getUser(userId);
+        return ResponseEntity.ok(user);
+    }
 }
 
