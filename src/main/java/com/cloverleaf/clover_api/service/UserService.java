@@ -10,4 +10,5 @@ public interface UserService {
     public User createUser(User user);
     public List<User> getAllUsers();
     public User getUser(Integer userId);
+    public User getUserByUsername(String username);
 }

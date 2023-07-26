@@ -1,5 +1,6 @@
 package com.cloverleaf.clover_api.service.impl;
 
+import com.cloverleaf.clover_api.exceptions.GlobalExceptionHandler;
 import com.cloverleaf.clover_api.exceptions.ResourceNotFoundException;
 import com.cloverleaf.clover_api.model.User;
 import com.cloverleaf.clover_api.payloads.UserDto;
@@ -8,6 +9,7 @@ import com.cloverleaf.clover_api.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
-        User user1=this.userRepository.save(user);
-        return user1;
+        User user_=null;
+
+        long id=3;
+        user_=this.userRepository.findByUserName(user.getUsername());
+
+        if(user_!=null) {
+            System.out.println("User is already there !!.");
+            throw new UsernameNotFoundException(user.getUsername());
+        }
+        else
+        {
+            user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+            user_ = this.userRepository.save(user);
+            return user_;
+        }
     }
 
     @Override
@@ -38,10 +52,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Integer userId) {
 
-//        User user = this.userRepository(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
-
-        return   null;
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
+        return   user;
+    }
+    @Override
+    public User getUserByUsername(String username)
+    {
+        User user=this.userRepository.findByUserName(username);
+        return user;
     }
 //    public UserDto userToDto(User user)
 //    {
