@@ -16,8 +16,8 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    ModelMapper modelMapper;
+//    @Autowired
+//    ModelMapper modelMapper;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -38,18 +38,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Integer userId) {
 
-        User user = this.userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
+//        User user = this.userRepository(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("User","id",userId));
 
-        return   user;
+        return   null;
     }
-    public UserDto userToDto(User user)
-    {
-        //Error
-        UserDto userDto=  this.modelMapper.map(user,UserDto.class);
-
-
-        return userDto;
-    }
+//    public UserDto userToDto(User user)
+//    {
+//        //Error
+//        UserDto userDto=  this.modelMapper.map(user,UserDto.class);
+//
+//
+//        return userDto;
+//    }
 
 }

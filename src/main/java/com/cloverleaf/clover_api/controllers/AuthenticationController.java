@@ -5,7 +5,7 @@ import com.cloverleaf.clover_api.model.auth.JwtRequest;
 import com.cloverleaf.clover_api.model.auth.JwtResponse;
 import com.cloverleaf.clover_api.security.CustomUserDetailService;
 import com.cloverleaf.clover_api.security.JwtTokenHelper;
-import com.sun.istack.NotNull;
+//import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,7 @@ public class AuthenticationController {
     private JwtTokenHelper jwtTokenHelper;
 
     @PostMapping("/generate-token")
-    public ResponseEntity<?> genrateToken(@RequestBody @NotNull JwtRequest jwtRequest) throws Exception {
+    public ResponseEntity<?> genrateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
         try{
             authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
         }
