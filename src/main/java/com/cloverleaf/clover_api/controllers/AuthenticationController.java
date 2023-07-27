@@ -6,6 +6,7 @@ import com.cloverleaf.clover_api.model.auth.JwtResponse;
 import com.cloverleaf.clover_api.security.CustomUserDetailService;
 import com.cloverleaf.clover_api.security.JwtTokenHelper;
 //import org.antlr.v4.runtime.misc.NotNull;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -29,15 +31,15 @@ public class AuthenticationController {
     private JwtTokenHelper jwtTokenHelper;
 
     @PostMapping("/generate-token")
-    public ResponseEntity<?> genrateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+    public ResponseEntity<?> genrateToken(@RequestBody @NotNull @Valid JwtRequest jwtRequest) throws Exception {
         try{
-            authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
+            authenticate(jwtRequest.getEmail(),jwtRequest.getPassword());
         }
         catch (UsernameNotFoundException e){
             e.printStackTrace();
             throw new Exception("User not found");
         }
-        UserDetails userDetails=this.customUserDetailService.loadUserByUsername(jwtRequest.getUsername());
+        UserDetails userDetails=this.customUserDetailService.loadUserByUsername(jwtRequest.getEmail());
         String token=this.jwtTokenHelper.generateToken(userDetails);
 
         System.out.println(token);

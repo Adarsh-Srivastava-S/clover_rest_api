@@ -15,13 +15,25 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername(String username)  {
+    public UserDetails loadUserByUsername(String email)  {
 
-        User user = this.userRepository.findByUserName(username);
+        User user=null;
+        try {
+            user = this.userRepository.findByEmail(email);
+        }catch (Exception e)
+        {
+            user=null;
+        }
+        if(user==null)
+        {
+            user=this.userRepository.findByUserName(email);
+        }
+
+
 
         if(user==null) {
             System.out.println("User not found");
-            throw new UsernameNotExistsException("No user found in database !!"+username);
+            throw new UsernameNotExistsException("No user found in database !!"+email);
 //            throw new UsernameAlreadyExistsException("Username already exists: "+user.getUsername());
 
         }

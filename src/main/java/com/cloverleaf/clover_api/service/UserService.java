@@ -11,4 +11,5 @@ public interface UserService {
     public List<User> getAllUsers();
     public User getUser(Integer userId);
     public User getUserByUsername(String username);
+    public User getUserByEmail(String email);
 }

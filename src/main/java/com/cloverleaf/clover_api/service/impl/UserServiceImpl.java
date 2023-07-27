@@ -63,6 +63,12 @@ public class UserServiceImpl implements UserService {
         User user=this.userRepository.findByUserName(username);
         return user;
     }
+    @Override
+    public User getUserByEmail(String email)
+    {
+        User user=this.userRepository.findByEmail(email);
+        return user;
+    }
 //    public UserDto userToDto(User user)
 //    {
 //        //Error
